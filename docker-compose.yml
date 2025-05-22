@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  vite-react-app:
+    container_name: leaderboard_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8138:80"
+    environment:
+      - .env
