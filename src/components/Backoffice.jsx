@@ -17,7 +17,7 @@ const Backoffice = () => {
             }
             const data = await response.json();
             setTableData(data);
-            console.log(data)
+            // console.log(data)
         } catch (error) {
             console.error('Error fetching data:', error);
             setError('Failed to load data. Please try again later.');

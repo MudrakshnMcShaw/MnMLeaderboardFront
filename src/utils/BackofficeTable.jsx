@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
-import TableModal from '../components/TableModal';
+import TableModal from './TableModal';
 
 // Table headers for the main table
 const mainTableHeaders = [

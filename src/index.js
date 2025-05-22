@@ -1,6 +1,6 @@
 // components
 export { default as Backoffice } from './components/Backoffice'
-export { default as TableModal } from './components/TableModal'
+export { default as TableModal } from './utils/TableModal'
 
 
 // utils
