@@ -3,9 +3,7 @@ import { Backoffice } from "."
 function App() {
 
   return (
-    <>
-      <Backoffice />
-    </>
+    <Backoffice />
   )
 }
 

@@ -124,7 +124,7 @@ const Row = ({ row, idx, SubTableheaders }) => {
             <span className={row.pnl < 0 ? 'text-red-400' : 'text-green-400'}>
               ₹{row.pnl.toLocaleString('en-IN')}
             </span>
-            <span className="text-gray-400 text-sm">({row.percentage_pnl}%)</span>
+            {/* <span className="text-gray-400 text-sm">({row.percentage_pnl}%)</span> */}
           </div>
         </td>
         <td className="text-center py-2 px-4">
@@ -181,7 +181,7 @@ const Row = ({ row, idx, SubTableheaders }) => {
                             <span className={historyRow.pnl < 0 ? 'text-red-400' : 'text-green-400'}>
                               ₹{historyRow.pnl.toLocaleString('en-IN')}
                             </span>
-                            <span className="text-gray-400 text-xs">({historyRow.percentage_pnl}%)</span>
+                            {/* <span className="text-gray-400 text-xs">({historyRow.percentage_pnl}%)</span> */}
                           </div>
                         </td>
                         <td className="px-4 py-2 text-sm text-white text-center">
