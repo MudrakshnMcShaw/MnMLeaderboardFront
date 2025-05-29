@@ -3,7 +3,7 @@ import TableModal from './TableModal';
 
 // Table headers for the main table
 const mainTableHeaders = [
-  { id: 'sno', label: '#' },
+  { id: 'sno', label: 'S.No' },
   { id: 'name', label: 'Name' },
   { id: 'roi', label: 'ROI' },
   { id: 'pnl', label: 'PNL' },
@@ -202,7 +202,7 @@ const Row = ({ row, idx, SubTableheaders }) => {
 };
 
 // Main component
-const BackofficeTable = ({ data }) => {
+const BackofficeTB = ({ data }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('month');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -274,9 +274,7 @@ const BackofficeTable = ({ data }) => {
             </tr>
           </thead>
           <tbody className="bg-transparent divide-y divide-gray-700">
-            {sortedData.map((row, idx) => (
-              <Row key={idx} row={row} idx={idx} SubTableheaders={subTableHeaders} />
-            ))}
+            
           </tbody>
         </table>
       </div>
@@ -284,4 +282,4 @@ const BackofficeTable = ({ data }) => {
   );
 };
 
-export default BackofficeTable;
+export default BackofficeTB;
