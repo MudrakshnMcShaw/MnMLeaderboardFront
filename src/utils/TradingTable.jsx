@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import TableModal from './TableModal';
+import TopTraderModal from './TopTraderModal';
 import { toast } from 'sonner';
-const TradingTable = ({ data, setRerender }) => {
+const TradingTable = ({ data, top3, setRerender }) => {
   const [expandedTraders, setExpandedTraders] = useState({});
   const [expandedMonths, setExpandedMonths] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTopModalOpen, setIsTopModalOpen] = useState(false);
   const [formData, setFormData] = useState({
       date: new Date().toISOString().split('T')[0],
       name: '',
@@ -14,7 +16,7 @@ const TradingTable = ({ data, setRerender }) => {
       profit_days: '',
       loss_days: ''
     });
-
+    // console.log(data)
   const toggleTrader = (name) => {
     setExpandedTraders((prev) => ({ ...prev, [name]: !prev[name] }));
   };
@@ -35,8 +37,12 @@ const TradingTable = ({ data, setRerender }) => {
       loss_days: ''
     });
     setIsModalOpen(true);
-    console.log("Modal opened");
+    // console.log("Modal opened");
   };
+
+  const handleTopOpenModal = () => {
+    setIsTopModalOpen(true);
+  }
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -69,10 +75,15 @@ const getEmojiForName = (name) => {
   return (
     <div className="overflow-x-auto p-6">
         <div className='flex gap-4 justify-end'>
+          <button 
+        onClick={handleTopOpenModal}
+        className="text-indigo-500  bg-white/20 px-5 py-1 rounded-2xl shadow-md cursor-pointer hover:from-indigo-600 hover:to-purple-600 focus:outline-none transition-all duration-200 ease-in-out mb-4">
+            Top Traders 🏆
+        </button>
         <button 
         onClick={handleOpenModal}
         className="text-indigo-500  bg-white/20 px-5 py-1 rounded-2xl shadow-md cursor-pointer hover:from-indigo-600 hover:to-purple-600 focus:outline-none transition-all duration-200 ease-in-out mb-4">
-            Entre Trade 💹
+            Enter Trade 💹
         </button>
         <button 
         onClick={() => setRerender((prev) => !prev)}
@@ -92,15 +103,27 @@ const getEmojiForName = (name) => {
           </div>
         )}
 
+        {isTopModalOpen
+        && (
+        <div className="absolute top-50 mt-2 z-50 w-96 bg-transparent backdrop-blur-sm border border-white/20 rounded-2xl shadow-2xl p-0 text-white">
+            <TopTraderModal
+            setIsTopModalOpen={setIsTopModalOpen}
+            data={top3}
+            />
+          </div>
+        )}
+
       </div>
       <div className="bg-gray-800 rounded-xl shadow-xl overflow-hidden">
         <table className="min-w-full table-auto text-sm">
-          <thead className="bg-gray-700 text-gray-200 uppercase text-xs font-semibold tracking-wider">
+          <thead className="bg-gray-700 text-gray-200 uppercase text-xs font-medium tracking-wider">
             <tr>
               <td className="px-6 py-3">Trader</td>
               <td className="px-6 py-3 text-center">ROI (%)</td>
               <td className="px-6 py-3 text-center">Capital</td>
               <td className="px-6 py-3 text-center">Total PnL</td>
+              <td className="px-6 py-3 text-center">Average Profit</td>
+              <td className="px-6 py-3 text-center">Average Loss</td>
               <td className="px-6 py-3 text-center">Profit Days</td>
               <td className="px-6 py-3 text-center">Loss Days</td>
             </tr>
@@ -119,6 +142,8 @@ const getEmojiForName = (name) => {
                   <td className="px-6 py-3 text-center">{trader.roi}%</td>
                   <td className="px-6 py-3 text-center">₹{trader.capital_invested}</td>
                   <td className={`px-6 py-3 text-center ${trader.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}>{trader.pnl}</td>
+                  <td className="px-6 py-3 text-center">{trader.avg_daily_profit}</td>
+                  <td className="px-6 py-3 text-center">{trader.avg_daily_loss}</td>
                   <td className="px-6 py-3 text-center">{trader.profit_days}</td>
                   <td className="px-6 py-3 text-center">{trader.loss_days}</td>
                 </tr>
@@ -135,7 +160,7 @@ const getEmojiForName = (name) => {
                         <td className="px-10 py-2 font-medium flex items-center gap-2" colSpan={2}>
                           {expandedMonths[`${trader.name}-${month.month}`] ? '▼' : '▶'} {formatMonth(month.month)}
                         </td>
-                        <td className="px-6 py-3 text-center">{month.roi}%</td>
+                        <td className="px-6 py-2 text-center">{month.roi}%</td>
                         <td className="px-6 py-2 text-center">₹{month.capital_invested}</td>
                         <td className={`px-6 py-2 text-center ${month.pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>{month.pnl}</td>
                         <td className="px-6 py-2 text-center">{month.profit_days}</td>
@@ -147,7 +172,7 @@ const getEmojiForName = (name) => {
                         month.daywise_data?.map((day, index) => (
                           <tr
                             key={`${trader.name}-${month.month}-${day.date}-${index}`}
-                            className="text-gray-400 text-xs bg-gray-800"
+                            className="text-gray-100 py-2 text-sm bg-gray-800"
                           >
                             <td className="px-14 py-1" colSpan={2}>
                                {formatDate(day.date)}

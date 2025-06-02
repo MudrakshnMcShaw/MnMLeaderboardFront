@@ -4,4 +4,4 @@ export { default as TableModal } from './utils/TableModal'
 
 
 // utils
-export { default as BackofficeTable } from './utils/BackofficeTable'
+// export { default as BackofficeTable } from './utils/BackofficeTable'

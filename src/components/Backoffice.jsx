@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { BackofficeTable } from '..';
 import axios from 'axios';
 import TradingTable from '../utils/TradingTable';
 import { Toaster, toast } from 'sonner';
@@ -11,6 +10,7 @@ const Backoffice = () => {
     // const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [rerender, setRerender] = useState(false);
+    const [top3, setTop3] = useState([]);
 
     useEffect(() => {
         (async() => {
@@ -21,8 +21,11 @@ const Backoffice = () => {
                 if(rerender) toast.success('Data Refreshed successfully');
             }
             const data = response.data;
+            const sortedData = [...data].sort((a, b) => b.pnl - a.pnl);
+            const top3 = sortedData.slice(0, 3);
+            setTop3(top3);
             setTableData(data);
-            console.log(data)
+            // console.log(data)
         } catch (error) {
             console.error('Error fetching data:', error);
             toast.error('Failed to load data. Please try again later.');
@@ -34,7 +37,7 @@ const Backoffice = () => {
     return (
         <div className="w-full h-screen">
             <Toaster position="bottom-right" richColors={true} />
-                <TradingTable data={tableData} setRerender={setRerender}/>
+                <TradingTable data={tableData} top3={top3} setRerender={setRerender}/>
         </div>
     );
 };
